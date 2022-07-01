@@ -13,7 +13,7 @@ export default function WidgetSm() {
         const res = await axios.get("/users/latest?new=true", {
           headers: {
             token:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYmFmM2U5MzMyNDgyNjQ2NWEwYTljZCIsImVtYWlsIjoiam9lQGpvZS5jb20iLCJ1c2VyTmFtZSI6InlvdXNzZWYiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjU2NDE5MzA1LCJleHAiOjE2NTY2Nzg1MDV9.0tZdfnDKySyALlUjwiywB_u--oka4Bldgmt4xf2C6rM",
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYjliZmE3ODNmZTE2ZTA0YjhmNzFiMCIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNjU2NjYwODQ4LCJleHAiOjE2NTY5MjAwNDh9.-mIvBrpQw-u8cAO2nbgNA92FInVH9LFnZ1OZE9YUxzM",
           },
         });
         setNewUsers(res.data);
@@ -29,17 +29,17 @@ export default function WidgetSm() {
       <span className="widgetSmTitle">New Join Members</span>
       <ul className="widgetSmList">
         {newUsers.map((user) => (
-          <li className="widgetSmListItem">
+          <li key={user._id} className="widgetSmListItem">
             <img
               src={
-                user.profilePic ||
+                user.profilePicture ||
                 "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
               }
               alt=""
               className="widgetSmImg"
             />
-            <div className="widgetSmUser">
-              <span className="widgetSmUsername">{user.username}</span>
+            <div classNamusere="widgetSmUser">
+              <span className="widgetSmUsername">{user.userName}</span>
             </div>
             <button className="widgetSmButton">
               <Visibility className="widgetSmIcon" />
