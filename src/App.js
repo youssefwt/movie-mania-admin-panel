@@ -67,6 +67,9 @@ function App() {
             </div>
           </>
         )}
+        <Route path="/*">
+          {user ? <Redirect to="/" /> : <Redirect to="/login" />}
+        </Route>
       </Switch>
     </Router>
   );
