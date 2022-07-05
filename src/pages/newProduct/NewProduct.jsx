@@ -3,6 +3,8 @@ import "./newProduct.css";
 import storage from "../../firebase";
 import { createMovie } from "../../context/movieContext/apiCalls";
 import { MovieContext } from "../../context/movieContext/MovieContext";
+import Swal from "sweetalert2";
+import { CircularProgress } from "@material-ui/core";
 
 export default function NewMovie() {
   const [movie, setMovie] = useState(null);
@@ -10,6 +12,9 @@ export default function NewMovie() {
   const [trailer, setTrailer] = useState(null);
   const [video, setVideo] = useState(null);
   const [uploaded, setUploaded] = useState(0);
+  const [imageProgress, setImageProgress] = useState(0);
+  const [trailerProgress, setTrailerProgress] = useState(0);
+  const [videoProgress, setVideoProgress] = useState(0);
 
   const { dispatch } = useContext(MovieContext);
 
@@ -25,9 +30,19 @@ export default function NewMovie() {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
+          //get name snapshot.metadata.name
+          const name = snapshot.ref.name;
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("Upload is " + progress + "% done");
+
+          if (name.includes("image")) {
+            setImageProgress(progress);
+          } else if (name.includes("trailer")) {
+            setTrailerProgress(progress);
+          } else if (name.includes("video")) {
+            setVideoProgress(progress);
+          }
         },
         (error) => {
           console.log(error);
@@ -46,16 +61,38 @@ export default function NewMovie() {
 
   const handleUpload = (e) => {
     e.preventDefault();
-    upload([
-      { file: img, label: "image" },
-      { file: trailer, label: "trailer" },
-      { file: video, label: "video" },
-    ]);
+    if (img && trailer && video) {
+      upload([
+        { file: img, label: "image" },
+        { file: trailer, label: "trailer" },
+        { file: video, label: "video" },
+      ]);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please make sure you have uploaded all files",
+      });
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleCreate = (e) => {
     e.preventDefault();
-    createMovie(movie, dispatch);
+    if (
+      movie.title &&
+      movie.description &&
+      movie.image &&
+      movie.trailer &&
+      movie.video
+    ) {
+      createMovie(movie, dispatch);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please make sure you have filled all fields",
+      });
+    }
   };
 
   return (
@@ -67,8 +104,21 @@ export default function NewMovie() {
           <input
             type="file"
             id="image"
+            accept="image/*"
             name="image"
-            onChange={(e) => setImage(e.target.files[0])}
+            onChange={(e) => {
+              if (!e.target.files[0]) return;
+
+              if (e.target.files[0].type.startsWith("image")) {
+                setImage(e.target.files[0]);
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Please select an image file!",
+                });
+              }
+            }}
           />
         </div>
         <div className="addProductItem">
@@ -94,7 +144,7 @@ export default function NewMovie() {
         <div className="addProductItem">
           <label>Year</label>
           <input
-            type="text"
+            type="number"
             placeholder="Year"
             required
             name="year"
@@ -114,7 +164,7 @@ export default function NewMovie() {
         <div className="addProductItem">
           <label>Duration</label>
           <input
-            type="text"
+            type="number"
             placeholder="Duration"
             required
             name="duration"
@@ -124,7 +174,7 @@ export default function NewMovie() {
         <div className="addProductItem">
           <label>Limit</label>
           <input
-            type="text"
+            type="number"
             placeholder="limit"
             name="limit"
             onChange={handleChange}
@@ -143,7 +193,19 @@ export default function NewMovie() {
             type="file"
             name="trailer"
             required
-            onChange={(e) => setTrailer(e.target.files[0])}
+            accept="video/*"
+            onChange={(e) => {
+              if (!e.target.files[0]) return;
+              if (e.target.files[0].type.startsWith("video")) {
+                setTrailer(e.target.files[0]);
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Please select a video file!",
+                });
+              }
+            }}
           />
         </div>
         <div className="addProductItem">
@@ -152,19 +214,51 @@ export default function NewMovie() {
             type="file"
             name="video"
             required
-            onChange={(e) => setVideo(e.target.files[0])}
+            accept="video/*"
+            onChange={(e) => {
+              if (!e.target.files[0]) return;
+              if (e.target.files[0].type.startsWith("video")) {
+                setVideo(e.target.files[0]);
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Please select a video file!",
+                });
+              }
+            }}
           />
         </div>
         {uploaded === 3 ? (
-          <button className="addProductButton" onClick={handleSubmit}>
+          <button className="addProductButton" onClick={handleCreate}>
             Create
           </button>
         ) : (
-          <button className="addProductButton" onClick={handleUpload}>
-            Upload
-          </button>
+          <>
+            <button className="addProductButton" onClick={handleUpload}>
+              Upload
+            </button>
+          </>
         )}
       </form>
+      {imageProgress > 0 && trailerProgress > 0 && videoProgress > 0 && (
+        <div
+          style={{
+            margin: "0 auto",
+            textAlign: "center",
+          }}
+        >
+          <CircularProgress
+            variant="determinate"
+            value={Math.round(
+              (imageProgress + trailerProgress + videoProgress) / 3
+            )}
+          />
+          <div>{`${Math.round(
+            (imageProgress + trailerProgress + videoProgress) / 3
+          )}%`}</div>
+        </div>
+      )}
     </div>
   );
 }
