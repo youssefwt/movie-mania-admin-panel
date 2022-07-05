@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import "./newList.css";
-import storage from "../../firebase";
 import { getMovies } from "../../context/movieContext/apiCalls";
 import { MovieContext } from "../../context/movieContext/MovieContext";
 import { ListContext } from "../../context/listContext/ListContext";
@@ -47,6 +46,7 @@ export default function NewList() {
               type="text"
               placeholder="popular movies"
               name="title"
+              required
               onChange={handleChange}
             />
           </div>
@@ -56,6 +56,7 @@ export default function NewList() {
               type="text"
               placeholder="genre"
               name="genre"
+              required
               onChange={handleChange}
             />
           </div>
@@ -63,7 +64,7 @@ export default function NewList() {
         <div className="formRight">
           <div className="addProductItem">
             <label>Type</label>
-            <select name="type" onChange={handleChange}>
+            <select name="type" onChange={handleChange} required>
               <option defaultValue="">Type</option>
               <option value="movie">Movie</option>
               <option value="series">Series</option>

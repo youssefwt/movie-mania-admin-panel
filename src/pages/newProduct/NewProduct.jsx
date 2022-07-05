@@ -76,6 +76,7 @@ export default function NewMovie() {
           <input
             type="text"
             placeholder="John Wick"
+            required
             name="title"
             onChange={handleChange}
           />
@@ -85,6 +86,7 @@ export default function NewMovie() {
           <input
             type="text"
             placeholder="description"
+            required
             name="desc"
             onChange={handleChange}
           />
@@ -94,6 +96,7 @@ export default function NewMovie() {
           <input
             type="text"
             placeholder="Year"
+            required
             name="year"
             onChange={handleChange}
           />
@@ -103,6 +106,7 @@ export default function NewMovie() {
           <input
             type="text"
             placeholder="Genre"
+            required
             name="genre"
             onChange={handleChange}
           />
@@ -112,6 +116,7 @@ export default function NewMovie() {
           <input
             type="text"
             placeholder="Duration"
+            required
             name="duration"
             onChange={handleChange}
           />
@@ -137,6 +142,7 @@ export default function NewMovie() {
           <input
             type="file"
             name="trailer"
+            required
             onChange={(e) => setTrailer(e.target.files[0])}
           />
         </div>
@@ -145,6 +151,7 @@ export default function NewMovie() {
           <input
             type="file"
             name="video"
+            required
             onChange={(e) => setVideo(e.target.files[0])}
           />
         </div>

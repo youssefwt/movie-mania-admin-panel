@@ -55,3 +55,30 @@
     border-radius: 50%;
     cursor: pointer;
 }
+
+.profile{
+  position: relative;
+}
+.profile .options{
+  background-color: gray;
+  border-radius: 5px;
+  display: none;
+  padding: 20px 0;
+}
+
+.profile:hover .options{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+}
+
+.profile .options span{
+  cursor: pointer;
+  padding: 10px;
+}
+
+.profile .options span:hover{
+  color: white;
+}
+

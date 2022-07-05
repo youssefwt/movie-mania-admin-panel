@@ -20,12 +20,14 @@ export const Login = () => {
         <input
           type="email"
           placeholder="email"
+          required
           className="loginInput"
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
           placeholder="password"
+          required
           className="loginInput"
           onChange={(e) => setPassword(e.target.value)}
         />

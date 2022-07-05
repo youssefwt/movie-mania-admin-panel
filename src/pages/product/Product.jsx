@@ -44,17 +44,17 @@ export default function Product() {
         <form className="productForm">
           <div className="productFormLeft">
             <label>Movie Title</label>
-            <input type="text" placeholder={movie.title} />
+            <input type="text" placeholder={movie.title} required />
             <label>Year</label>
-            <input type="text" placeholder={movie.year} />
+            <input type="text" placeholder={movie.year} required />
             <label>Genre</label>
-            <input type="text" placeholder={movie.genre} />
+            <input type="text" placeholder={movie.genre} required />
             <label>Limit</label>
-            <input type="text" placeholder={movie.limit} />
+            <input type="text" placeholder={movie.limit} required />
             <label>Trailer</label>
-            <input type="file" placeholder={movie.trailer} />
+            <input type="file" placeholder={movie.trailer} required />
             <label>Video</label>
-            <input type="file" placeholder={movie.video} />
+            <input type="file" placeholder={movie.video} required />
           </div>
           <div className="productFormRight">
             <div className="productUpload">
