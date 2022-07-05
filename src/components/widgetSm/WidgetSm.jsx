@@ -13,7 +13,7 @@ export default function WidgetSm() {
         const res = await axios.get("/users/latest?new=true", {
           headers: {
             token:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYjliZmE3ODNmZTE2ZTA0YjhmNzFiMCIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNjU2NjYwODQ4LCJleHAiOjE2NTY5MjAwNDh9.-mIvBrpQw-u8cAO2nbgNA92FInVH9LFnZ1OZE9YUxzM",
+              "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
           },
         });
         setNewUsers(res.data);
